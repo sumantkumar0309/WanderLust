@@ -17,7 +17,7 @@ const ExpressError = require("./utils/ExpressError.js");
 const wrapAsync = require("./utils/wrapAsync.js");
 const listingsRouter = require("./Routes/listing");
 const reviewsRouter = require("./Routes/Review");
-const userRouter = require("./routes/user.js");
+const userRouter = require("./Routes/user.js");
 
 const { listingSchema, reviewsSchema } = require("./schema.js");
 const session = require("express-session");
