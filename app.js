@@ -28,8 +28,8 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 
-// Hardcoded local URL since MongoDB Atlas IP Whitelist is blocking the connection locally
-const dbUrl = "mongodb://127.0.0.1:27017/wanderlust"; // process.env.ATLASDB_URL;
+// Use Atlas DB in production/Render, fallback to local DB for local development
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/wanderlust";
 
 main()
     .then(() => {
@@ -108,10 +108,10 @@ app.use("/", userRouter);
 
 console.log("Routes are being registered...");
 
-// app.get("/", (req, res) => {
-//     res.send("Hii, i am root");
-// });
-
+// Health check / root route
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page not found ok!"));
