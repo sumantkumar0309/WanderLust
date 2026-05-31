@@ -1,0 +1,151 @@
+<% layout("layouts/boilerplate") %>
+    <div class="container">
+        <!-- <%- include("../includes/flash.ejs") %> -->
+
+        <style>
+            #filters {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+
+            }
+
+            .filter {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+                transition: background-color 0.3s ease, color 0.3s ease;
+                opacity: 0.8;
+                text-decoration: none;
+                color: inherit;
+                border-radius: 10px;
+            }
+
+            .filter:hover {
+                background-color: #f0f0f0;
+                /* color: #333; */
+                opacity: 1;
+                border-radius: 10px;
+            }
+
+            .filter.active {
+                background-color: #e0e0e0;
+                opacity: 1;
+                font-weight: bold;
+            }
+
+            .filter p {
+                margin-top: 0.5rem;
+                font-size: 0.9rem;
+            }
+            .tax-toggle {
+                margin-left: 0px;
+                margin-top: 0.5rem;
+                display: flex;
+                align-items: center;
+                border: 1px solid #737171;
+                padding: 0.5rem 0.7rem;
+                border-radius: 10px;
+                height: 3.5rem;
+            }
+        </style>
+
+        <div id="filters">
+            <a href="/listings" class="filter <% if(!category) { %>active<% } %>">
+                <div><i class="fa-solid fa-fire"></i></div>
+                <p>All</p>
+            </a>
+            <a href="/listings?category=city" class="filter <% if(category === 'city') { %>active<% } %>">
+                <div><i class="fa-solid fa-city"></i></div>
+                <p>City</p>
+            </a>
+            <a href="/listings?category=mountain" class="filter <% if(category === 'mountain') { %>active<% } %>">
+                <div><i class="fa-solid fa-mountain"></i></div>
+                <p>Mountain</p>
+            </a>
+            <a href="/listings?category=castle" class="filter <% if(category === 'castle') { %>active<% } %>">
+                <div><i class="fa-brands fa-fort-awesome"></i></div>
+                <p>Castle</p>
+            </a>
+            <a href="/listings?category=pool" class="filter <% if(category === 'pool') { %>active<% } %>">
+                <div><i class="fa-solid fa-person-swimming"></i></div>
+                <p>Pool</p>
+            </a>
+            <a href="/listings?category=beach" class="filter <% if(category === 'beach') { %>active<% } %>">
+                <div><i class="fa-solid fa-umbrella-beach"></i></div>
+                <p>Beach</p>
+            </a>
+            <a href="/listings?category=farm" class="filter <% if(category === 'farm') { %>active<% } %>">
+                <div><i class="fa-solid fa-building-wheat"></i></div>
+                <p>Farm</p>
+            </a>
+            <a href="/listings?category=camping" class="filter <% if(category === 'camping') { %>active<% } %>">
+                <div><i class="fa-solid fa-campground"></i></div>
+                <p>Camping</p>
+            </a>
+            <a href="/listings?category=lakefront" class="filter <% if(category === 'lakefront') { %>active<% } %>">
+                <div><i class="fa-solid fa-house-flood-water-circle-arrow-right"></i></div>
+                <p>Lakefront</p>
+            </a>
+
+            <div class="tax-toggle">
+                <div class="form-check-reverse form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                    <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+                </div>
+            </div>
+        </div>
+        <!-- <a href="/listings/new" class="btn">Add New Listing</a> -->
+
+        <div class="grid" mt-4>
+            <% for (let listing of allListings) { %>
+                <a class="card-link" href="/listings/<%= listing._id %>">
+                    <article class="card">
+                        <div class="media">
+                            <img src="<%= listing.image && listing.image.url ? listing.image.url : listing.image %>"
+                                alt="<%= listing.title %>">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <%= listing.title %>
+                            </h3>
+                            <p class="meta">
+                                <%= listing.location %>, <%= listing.country %> • $<%= listing.price %> / Night <i> </i>
+                            </p>
+                            <p class="desc">
+                                <%= listing.description %>
+                            </p>
+                            <% if(listing.owner) { %>
+                                <p class="owner-meta"><i>Owned by <%= listing.owner.username %></i></p>
+                                <% } %>
+                        </div>
+                    </article>
+                </a>
+                <% } %>
+        </div>
+    </div>
+
+    <script>
+        const taxToggle = document.getElementById('switchCheckDefault');
+        taxToggle.addEventListener('change', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const priceElement = card.querySelector('.meta');
+                const priceText = priceElement.textContent;
+                const priceMatch = priceText.match(/\$(\d+)/);
+                if (priceMatch) {
+                    const basePrice = parseFloat(priceMatch[1]);
+                    if (taxToggle.checked) {
+                        const totalPrice = (basePrice * 1.1).toFixed(2); // Assuming 10% tax
+                        priceElement.textContent = priceText.replace(`$${basePrice}`, `$${totalPrice}`);
+                    } else {
+                        priceElement.textContent = priceText.replace(/\$\d+(\.\d{2})?/, `$${basePrice}`);
+                    }
+                }
+            });
+        });
+    </script>

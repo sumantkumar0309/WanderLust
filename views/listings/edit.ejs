@@ -1,0 +1,61 @@
+<% layout("layouts/boilerplate") %>
+
+    <div class="container">
+        <a class="back-link" href="/listings">← Back to listings</a>
+        <h2>Edit Listing</h2>
+        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="form needs-validation" novalidate enctype="multipart/form-data">
+             <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="listing[title]" value="<%= listing.title %>" required>
+                <div class="valid-feedback">Title looks good!</div>
+                <div class="invalid-feedback">Title is required!</div>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="listing[description]" rows="4" required><%= listing.description %></textarea>
+                <div class="invalid-feedback">Description is required!</div>
+            </div>
+            <div class="form-group">
+                <label for="image">Replace Image</label>
+                <% if (listing.image && listing.image.url) { %>
+                    <div style="margin-bottom: 10px;">
+                        <img src="<%= originalImageUrl %>" alt="Current listing image" style="max-width: 220px; width: 100%; border-radius: 8px; object-fit: cover;">
+                    </div>
+                <% } %>
+                <input type="file" id="image" name="listing[image]" accept="image/*">
+                <div class="invalid-feedback">Image should be a valid file!</div>  
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" id="price" name="listing[price]" value="<%= listing.price %>" min="0" required>
+                <div class="invalid-feedback">Price is required!</div>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="listing[category]" required>
+                    <option value="">Select category</option>
+                    <option value="city" <% if(listing.category === 'city') { %>selected<% } %>>City</option>
+                    <option value="mountain" <% if(listing.category === 'mountain') { %>selected<% } %>>Mountain</option>
+                    <option value="castle" <% if(listing.category === 'castle') { %>selected<% } %>>Castle</option>
+                    <option value="pool" <% if(listing.category === 'pool') { %>selected<% } %>>Pool</option>
+                    <option value="beach" <% if(listing.category === 'beach') { %>selected<% } %>>Beach</option>
+                    <option value="farm" <% if(listing.category === 'farm') { %>selected<% } %>>Farm</option>
+                    <option value="camping" <% if(listing.category === 'camping') { %>selected<% } %>>Camping</option>
+                    <option value="lakefront" <% if(listing.category === 'lakefront') { %>selected<% } %>>Lakefront</option>
+                </select>
+                <div class="invalid-feedback">Category should be a valid!</div>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="listing[location]" value="<%= listing.location %>" required>
+                <div class="invalid-feedback">Location is required!</div>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" name="listing[country]" value="<%= listing.country %>" required>
+                <div class="invalid-feedback">Country is required!</div>
+            </div>
+            <button type="submit" class="btn">Update Listing</button>
+        </form>
+    </div>
+ 

@@ -1,0 +1,27 @@
+ <% const successMessages = Array.isArray(success) ? success : (success ? [success] : []); %>
+<% if(successMessages.length > 0) { %>
+    <div class="row">
+        <div class="col-12">
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            <% successMessages.forEach(msg => { %>
+                <%= msg %>
+            <% }); %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        </div>
+    </div>
+<% } %>
+
+<% const errorMessages = Array.isArray(error) ? error : (error ? [error] : []); %>
+<% if(errorMessages.length > 0) { %>
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        <% errorMessages.forEach(msg => { %>
+            <%= msg %>
+        <% }); %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+<% } %>
