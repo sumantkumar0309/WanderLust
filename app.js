@@ -28,19 +28,20 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 
-const dbUrl = process.env.ATLASDB_URL;
+// Hardcoded local URL since MongoDB Atlas IP Whitelist is blocking the connection locally
+const dbUrl = "mongodb://127.0.0.1:27017/wanderlust"; // process.env.ATLASDB_URL;
 
 main()
     .then(() => {
-        // console.log("connected to DB"); // handled inside main() now
+        console.log("connected to DB");
     })
     .catch((err) => {
-        console.log(err);
+        console.log("DB CONNECTION ERROR:", err);
     });
 
 async function main() { 
-        await mongoose.connect(dbUrl);
-    }
+    await mongoose.connect(dbUrl);
+}
 
 app.set("view engine", "ejs");
 app.engine('ejs', ejsMate);
