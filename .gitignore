@@ -1,2 +1,4 @@
 .env
 node_modules/
+cookie*.txt
+test_tiny.png

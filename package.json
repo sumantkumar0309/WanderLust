@@ -3,14 +3,24 @@
     "node": "24.11.1"
 
   },
-  "name": "major-projects",
+  "name": "wanderlust",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A full-stack vacation-rental listing application built with Node.js, Express, MongoDB, and EJS.",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "seed": "node init/index.js",
+    "cloudinary:test": "node test_upload.js",
+    "verify": "node verify.js"
   },
-  "keywords": [],
+  "keywords": [
+    "express",
+    "mongodb",
+    "mongoose",
+    "ejs",
+    "travel",
+    "vacation-rental"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
